@@ -3,14 +3,17 @@
 
 #include <stdio.h>
 #include <string.h>
+
 #include <sys/socket.h>
 
 #define METHOD_SIZE 16
 #define URI_SIZE 1024
 #define VERSION_SIZE 16
 
-/* Procesa la request HTTP recibida */
-void handle_http_request(
+/*
+    Procesa request HTTP.
+*/
+int handle_http_request(
     int client_fd,
     const char *request)
 {
@@ -21,7 +24,16 @@ void handle_http_request(
     char version[VERSION_SIZE];
 
     /*
-        Extraemos:
+        Headers básicos HTTP/1.1.
+    */
+    char host[256] = "";
+
+    char connection[256] = "";
+
+    char user_agent[512] = "";
+
+    /*
+        Extrae:
         método, URI y versión.
     */
     int parsed = sscanf(
@@ -32,7 +44,7 @@ void handle_http_request(
         version);
 
     /*
-        Request mal formada.
+        Request inválida.
     */
     if (parsed != 3)
     {
@@ -49,7 +61,43 @@ void handle_http_request(
             strlen(response),
             0);
 
-        return;
+        return 0;
+    }
+
+    /*
+        Parsing headers básicos.
+    */
+    char *host_ptr =
+        strstr(request, "Host:");
+
+    if (host_ptr != NULL)
+    {
+        sscanf(
+            host_ptr,
+            "Host: %255[^\r\n]",
+            host);
+    }
+
+    char *connection_ptr =
+        strstr(request, "Connection:");
+
+    if (connection_ptr != NULL)
+    {
+        sscanf(
+            connection_ptr,
+            "Connection: %255[^\r\n]",
+            connection);
+    }
+
+    char *user_agent_ptr =
+        strstr(request, "User-Agent:");
+
+    if (user_agent_ptr != NULL)
+    {
+        sscanf(
+            user_agent_ptr,
+            "User-Agent: %511[^\r\n]",
+            user_agent);
     }
 
     printf("\n=== PARSED REQUEST ===\n");
@@ -60,8 +108,14 @@ void handle_http_request(
 
     printf("Version: %s\n", version);
 
+    printf("Host: %s\n", host);
+
+    printf("Connection: %s\n", connection);
+
+    printf("User-Agent: %s\n", user_agent);
+
     /*
-        Solo permitimos método GET.
+        Solo GET permitido.
     */
     if (strcmp(method, "GET") != 0)
     {
@@ -78,11 +132,11 @@ void handle_http_request(
             strlen(response),
             0);
 
-        return;
+        return 0;
     }
 
     /*
-        Validamos versión HTTP.
+        Validamos versión.
     */
     if (
         strcmp(version, "HTTP/1.1") != 0 &&
@@ -101,7 +155,7 @@ void handle_http_request(
             strlen(response),
             0);
 
-        return;
+        return 0;
     }
 
     /*
@@ -113,19 +167,25 @@ void handle_http_request(
             client_fd,
             "www/index.html");
 
-        return;
+        /*
+            Keep-alive simple.
+        */
+        if (
+            strcmp(
+                connection,
+                "keep-alive") == 0)
+        {
+            return 1;
+        }
+
+        return 0;
     }
 
     /*
-        Construimos ruta real:
-        /style.css -> www/style.css
+        Construimos ruta.
     */
     char path[2048];
 
-    /*
-        snprintf limita tamaño
-        y evita overflow.
-    */
     snprintf(
         path,
         sizeof(path),
@@ -135,4 +195,17 @@ void handle_http_request(
     send_file(
         client_fd,
         path);
+
+    /*
+        Keep-alive simple.
+    */
+    if (
+        strcmp(
+            connection,
+            "keep-alive") == 0)
+    {
+        return 1;
+    }
+
+    return 0;
 }

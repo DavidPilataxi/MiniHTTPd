@@ -177,21 +177,25 @@ int main(void)
                 /*
                     Procesa HTTP.
                 */
-                handle_http_request(
-                    client_fd,
-                    buffer);
+                int keep_alive =
+                    handle_http_request(
+                        client_fd,
+                        buffer);
 
                 /*
-                    Eliminamos cliente
-                    de epoll.
+                    Cerramos socket solo si
+                    NO hay keep-alive.
                 */
-                epoll_ctl(
-                    epoll_fd,
-                    EPOLL_CTL_DEL,
-                    client_fd,
-                    NULL);
+                if (!keep_alive)
+                {
+                    epoll_ctl(
+                        epoll_fd,
+                        EPOLL_CTL_DEL,
+                        client_fd,
+                        NULL);
 
-                close(client_fd);
+                    close(client_fd);
+                }
             }
         }
     }
