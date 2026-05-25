@@ -2,70 +2,49 @@
 
 #include <string.h>
 
-/* Recibe ruta archivo y devuelve Content-Type correspondiente */
+/* Detecta MIME type según extensión */
 const char *get_mime_type(
     const char *path)
 {
-    /*
-        Busca la última aparición de '.'
-        para obtener extensión.
-    */
-    const char *ext = strrchr(path, '.');
+    const char *extension;
+
+    extension = strrchr(path, '.');
 
     /*
-        Si no existe extensión,
-        usamos binario genérico.
+        Archivo sin extensión.
     */
-    if (ext == NULL)
+    if (extension == NULL)
     {
-        return "application/octet-stream";
+        return "text/plain";
     }
 
-    /*
-        HTML
-    */
-    if (strcmp(ext, ".html") == 0)
+    if (strcmp(extension, ".html") == 0)
     {
         return "text/html";
     }
 
-    /*
-        CSS
-    */
-    if (strcmp(ext, ".css") == 0)
+    if (strcmp(extension, ".css") == 0)
     {
         return "text/css";
     }
 
-    /*
-        JavaScript
-    */
-    if (strcmp(ext, ".js") == 0)
+    if (strcmp(extension, ".js") == 0)
     {
         return "application/javascript";
     }
 
-    /*
-        PNG
-    */
-    if (strcmp(ext, ".png") == 0)
+    if (strcmp(extension, ".png") == 0)
     {
         return "image/png";
     }
 
-    /*
-        JPG/JPEG
-    */
-    if (
-        strcmp(ext, ".jpg") == 0 ||
-        strcmp(ext, ".jpeg") == 0)
+    if (strcmp(extension, ".jpg") == 0)
     {
         return "image/jpeg";
     }
 
     /*
-        Tipo por defecto para
-        archivos desconocidos.
+        MIME default.
     */
     return "application/octet-stream";
 }

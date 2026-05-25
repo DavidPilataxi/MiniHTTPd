@@ -2,13 +2,53 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+
     <title>MiniHTTPd</title>
 
     <link rel="stylesheet" href="/style.css">
+
+    <script src="/test.js"></script>
 </head>
 
 <body>
-    <h1>MiniHTTPd workssss</h1>
+
+    <div class="container">
+
+        <h1>MiniHTTPd workssss</h1>
+
+        <p class="description">
+            Servidor web HTTP/1.1 desarrollado en C usando sockets,
+            epoll y soporte para archivos estáticos y tipos MIME.
+        </p>
+
+        <!--
+            MIME type tests:
+            image/png
+            image/jpeg
+        -->
+        <div class="images">
+
+            <div>
+                <h3>PNG Test</h3>
+
+                <img src="/image.png" width="250">
+            </div>
+
+            <div>
+                <h3>JPG Test</h3>
+
+                <img src="/image.jpg" width="250">
+            </div>
+
+        </div>
+
+        <footer>
+            David Pilataxi - Computación Distribuida
+        </footer>
+
+    </div>
+
 </body>
 
 </html>
