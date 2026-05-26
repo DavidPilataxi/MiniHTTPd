@@ -39,9 +39,6 @@ El objetivo del proyecto es comprender el funcionamiento interno de un servidor 
 
 ## Estructura del proyecto
 
-```text id="t4r2ps"
-## Estructura del proyecto
-
 ```text
 minihttpd/
 ├── Makefile         Compilación automática del proyecto
@@ -50,7 +47,6 @@ minihttpd/
 ├── src/             Código fuente principal del servidor
 ├── www/             Archivos estáticos servidos por el servidor
 ```
-
 
 ---
 
@@ -63,7 +59,7 @@ minihttpd/
 
 Instalar dependencias:
 
-```bash id="n5ch1r"
+```bash
 sudo apt update
 sudo apt install build-essential
 ```
@@ -74,22 +70,22 @@ sudo apt install build-essential
 
 ### Opción 1: Clonar el repositorio
 
-```bash id="6wjlwm"
+```bash
 git clone https://github.com/DavidPilataxi/MiniHTTPd.git
-cd MiniHTTTPd
+cd MiniHTTPd
 ```
 
 ### Opción 2: Descargar el proyecto
 
 * Descargar el repositorio.
-* Mover la carpeta del proyecto dentro de un directorio con entorno Linux o WSL Ubuntu. 
+* Mover la carpeta del proyecto dentro de un directorio con entorno Linux o WSL Ubuntu.
 * Abrir la terminal en el directorio del proyecto.
 
 ---
 
 ## Compilación
 
-```bash id="g5o6mx"
+```bash
 make
 ```
 
@@ -97,13 +93,13 @@ make
 
 ## Ejecución
 
-```bash id="8hrzjj"
+```bash
 ./minihttpd
 ```
 
 Abrir en navegador:
 
-```text id="e2u6r7"
+```text
 http://localhost:8080
 ```
 
@@ -111,19 +107,19 @@ http://localhost:8080
 
 ## Pruebas
 
-```bash id="fp0m5y"
+```bash
 curl http://localhost:8080
 ```
 
 Mostrar encabezados HTTP:
 
-```bash id="l0o3lj"
+```bash
 curl -i http://localhost:8080
 ```
 
 Solicitar archivos:
 
-```bash id="49qft0"
+```bash
 curl http://localhost:8080/style.css
 curl http://localhost:8080/test.js
 ```
@@ -132,7 +128,7 @@ curl http://localhost:8080/test.js
 
 ## Tipos MIME soportados
 
-```c id="uy1z2k"
+```c
 {".html", "text/html"},
 {".css",  "text/css"},
 {".js",   "application/javascript"},
@@ -166,9 +162,9 @@ El servidor implementa protección contra:
 
 ## Archivos Zone.Identifier
 
-Al mover la carpeta desde Windows a un entorno linux como WSL pueden aparecer archivos como:
+Al mover la carpeta desde Windows a un entorno Linux como WSL pueden aparecer archivos como:
 
-```text id="e8k8nn"
+```text
 archivo.c:Zone.Identifier
 ```
 
@@ -184,7 +180,7 @@ No afectan:
 
 Para eliminarlos:
 
-```bash id="59fg7l"
+```bash
 find . -name "*:Zone.Identifier" -type f -delete
 ```
 
