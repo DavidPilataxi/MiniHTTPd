@@ -186,6 +186,16 @@ find . -name "*:Zone.Identifier" -type f -delete
 
 ---
 
+## Uso de herramientas de IA
+
+Durante el desarrollo de este proyecto se utilizaron herramientas de inteligencia artificial como apoyo para:
+- investigación técnica
+- comprensión de conceptos
+- depuración
+- documentación
+
+Toda la implementación, adaptación, pruebas y comprensión del código fueron realizadas y verificadas manualmente.
+
 ## Autor
 
 David Pilataxi — Computación Distribuida
